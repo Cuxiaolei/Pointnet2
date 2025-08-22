@@ -13,6 +13,8 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 sys.path.append(BASE_DIR)
 sys.path.append(ROOT_DIR)
 sys.path.append(os.path.join(ROOT_DIR, 'utils'))
+# 在现有 sys.path.append 处补充
+sys.path.append(os.path.join(ROOT_DIR, 'models'))  # 添加 models 目录
 import provider
 import tf_util
 import pc_util
