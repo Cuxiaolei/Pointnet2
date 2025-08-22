@@ -10,12 +10,38 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(BASE_DIR)
 
 # Draw point cloud
-from eulerangles import euler2mat
+# from eulerangles import euler2mat
 
 # Point cloud IO
 import numpy as np
 from plyfile import PlyData, PlyElement
 
+import numpy as np
+
+def euler2mat(angles, axes='zyx'):
+    """
+    替代 eulerangles.euler2mat 的功能：将欧拉角转换为旋转矩阵
+    angles: 欧拉角列表 [z, y, x]
+    axes: 旋转顺序，默认 'zyx'（与原函数兼容）
+    """
+    z, y, x = angles
+    # Z轴旋转
+    cz, sz = np.cos(z), np.sin(z)
+    Mz = np.array([[cz, -sz, 0],
+                   [sz,  cz, 0],
+                   [0,   0,  1]])
+    # Y轴旋转
+    cy, sy = np.cos(y), np.sin(y)
+    My = np.array([[cy,  0, sy],
+                   [0,   1, 0],
+                   [-sy, 0, cy]])
+    # X轴旋转
+    cx, sx = np.cos(x), np.sin(x)
+    Mx = np.array([[1,  0,   0],
+                   [0, cx, -sx],
+                   [0, sx,  cx]])
+    # 组合旋转矩阵（zyx顺序）
+    return Mz @ My @ Mx
  
 # ----------------------------------------
 # Point Cloud/Volume Conversions
